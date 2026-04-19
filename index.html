@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nikita Sen — Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Barlow:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#111214;--bg2:#18191c;--bg3:#0e0f11;
+  --yellow:#f5d020;--yellow2:#f5a623;
+  --white:#f0ede6;--muted:#7a7d87;
+  --border:rgba(255,255,255,0.07);--card:#1c1e22;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;font-weight:300;overflow-x:hidden;cursor:none;}
+
+.c-dot{position:fixed;width:7px;height:7px;background:var(--yellow);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;}
+.c-ring{position:fixed;width:30px;height:30px;border:1.5px solid rgba(245,208,32,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .1s ease;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:54px;background:rgba(17,18,20,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.nav-brand{display:flex;align-items:center;gap:.6rem;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.2rem;letter-spacing:.08em;text-decoration:none;color:var(--white);}
+.nav-hex{width:26px;height:26px;background:var(--yellow);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:flex;align-items:center;justify-content:center;}
+.nav-hex span{font-size:.55rem;font-weight:900;color:#000;font-family:'Barlow Condensed',sans-serif;}
+.nav-center{position:absolute;left:50%;transform:translateX(-50%);font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.nav-right{display:flex;align-items:center;gap:1.5rem;}
+.live-pill{display:flex;align-items:center;gap:.4rem;font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;color:var(--white);}
+.live-dot{width:6px;height:6px;background:#3cff6e;border-radius:50%;animation:pulse 1.4s ease infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+.nav-links{display:flex;gap:1.8rem;list-style:none;}
+.nav-links a{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--yellow);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:.3rem;border:none;background:transparent;}
+.hamburger span{display:block;width:20px;height:1.5px;background:var(--white);transition:all .3s;}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+
+/* HERO */
+#hero{position:relative;min-height:100vh;overflow:hidden;display:flex;flex-direction:column;padding-top:54px;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 65% 45%,rgba(245,208,32,.04) 0%,transparent 70%);}
+.hero-main{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;flex:1;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:4rem 3rem 3rem 4.5rem;}
+
+.h-tag{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);margin-bottom:1.4rem;display:flex;align-items:center;gap:.6rem;opacity:0;animation:fadeUp .7s .1s forwards;}
+.h-tag::before{content:'//';color:var(--muted);}
+
+.h-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(5rem,8.5vw,9rem);line-height:.87;letter-spacing:-.01em;text-transform:uppercase;opacity:0;animation:fadeUp .8s .25s forwards;}
+.h-name .solid{color:var(--yellow);text-shadow:4px 4px 0 rgba(245,166,35,.25),-1px -1px 0 rgba(0,0,0,.4);}
+.h-name .outline{-webkit-text-stroke:2px var(--yellow);color:transparent;}
+
+.h-handle{font-family:'Share Tech Mono',monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:.6rem 0 1.6rem;opacity:0;animation:fadeUp .7s .4s forwards;}
+
+.h-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--yellow);color:#000;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;padding:.28rem .9rem;margin-bottom:1.6rem;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));opacity:0;animation:fadeUp .7s .5s forwards;}
+
+.h-desc{font-size:.9rem;line-height:1.88;color:rgba(240,237,230,.48);max-width:370px;margin-bottom:2.5rem;opacity:0;animation:fadeUp .7s .6s forwards;}
+
+.h-btns{display:flex;gap:.8rem;flex-wrap:wrap;opacity:0;animation:fadeUp .7s .75s forwards;}
+.btn-y{padding:.75rem 2rem;background:var(--yellow);color:#000;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:background .2s;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
+.btn-y:hover{background:var(--yellow2);}
+.btn-ghost{padding:.75rem 2rem;border:1.5px solid rgba(245,208,32,.35);color:var(--yellow);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:all .2s;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
+.btn-ghost:hover{background:rgba(245,208,32,.07);}
+
+.hero-right{position:relative;overflow:hidden;}
+.hero-photo-wrap{position:absolute;inset:0;}
+.hero-photo{width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(8%) contrast(1.12) brightness(.8);}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to right,var(--bg) 0%,rgba(17,18,20,.25) 38%,rgba(17,18,20,.08) 62%,var(--bg) 100%),linear-gradient(to top,var(--bg) 0%,transparent 42%),linear-gradient(to bottom,rgba(17,18,20,.55) 0%,transparent 22%);}
+.hero-drip{position:absolute;top:-20px;right:0;width:160px;height:280px;background:linear-gradient(180deg,rgba(245,208,32,.2) 0%,transparent 100%);clip-path:polygon(30% 0,100% 0,100% 65%,65% 95%,25% 78%,0 100%,18% 38%);pointer-events:none;}
+
+/* STAT BAR */
+.stat-bar{position:relative;z-index:3;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);background:rgba(13,14,16,.97);backdrop-filter:blur(10px);}
+.sb-item{padding:1.35rem 2rem;border-right:1px solid var(--border);}
+.sb-item:last-child{border-right:none;}
+.sb-lbl{font-family:'Share Tech Mono',monospace;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem;}
+.sb-val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.3rem;line-height:1;color:var(--yellow);letter-spacing:-.01em;}
+.sb-val.w{color:var(--white);}
+.sb-sub{font-family:'Share Tech Mono',monospace;font-size:.56rem;color:var(--muted);margin-top:.3rem;letter-spacing:.06em;}
+
+/* TICKER */
+.ticker{background:var(--yellow);overflow:hidden;padding:.52rem 0;position:relative;z-index:4;}
+.ticker-inner{display:flex;gap:2rem;animation:marquee 22s linear infinite;white-space:nowrap;}
+.ticker-inner span{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:#000;}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTIONS */
+section{padding:6rem 4.5rem;position:relative;}
+.sec-hdr{display:flex;align-items:baseline;gap:1.4rem;margin-bottom:3rem;}
+.sec-big-n{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:5rem;line-height:1;color:rgba(245,208,32,.07);letter-spacing:-.02em;}
+.sec-eye{font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow);display:block;margin-bottom:.35rem;}
+.sec-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(2.2rem,3.8vw,3.6rem);line-height:.95;letter-spacing:-.01em;text-transform:uppercase;}
+.sec-title .y{color:var(--yellow);}
+
+/* ABOUT */
+#about{background:var(--bg2);}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
+.abt-p{font-size:.88rem;line-height:1.95;color:rgba(240,237,230,.5);margin-bottom:1.3rem;}
+.abt-quote{border-left:3px solid var(--yellow);padding:1rem 1.4rem;background:rgba(245,208,32,.04);margin-top:1.8rem;}
+.abt-quote p{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-style:italic;font-size:1.05rem;color:var(--white);line-height:1.4;}
+.sk-group{margin-bottom:1.4rem;}
+.sk-lbl{font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);margin-bottom:.6rem;}
+.sk-pills{display:flex;flex-wrap:wrap;gap:.38rem;}
+.sk-pill{padding:.26rem .8rem;border:1px solid rgba(255,255,255,.1);font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.76rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;transition:all .2s;cursor:default;}
+.sk-pill:hover{border-color:var(--yellow);color:var(--white);}
+
+/* EXPERIENCE */
+#experience{background:var(--bg3);}
+.exp-list{display:flex;flex-direction:column;}
+.exp-row{display:grid;grid-template-columns:155px 1fr;gap:2.5rem;padding:2.5rem 0;border-bottom:1px solid var(--border);transition:background .2s;}
+.exp-row:first-child{border-top:1px solid var(--border);}
+.exp-row:hover{background:rgba(245,208,32,.015);}
+.exp-dt{font-family:'Share Tech Mono',monospace;font-size:.63rem;color:var(--muted);padding-top:.2rem;line-height:1.7;}
+.exp-badge{display:inline-block;padding:.11rem .58rem;background:rgba(245,208,32,.1);border:1px solid rgba(245,208,32,.22);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.6rem;color:var(--yellow);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.55rem;}
+.exp-role{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:1.85rem;letter-spacing:-.01em;text-transform:uppercase;margin-bottom:.25rem;line-height:1;}
+.exp-co{font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--yellow);margin-bottom:.85rem;}
+.exp-desc{font-size:.84rem;line-height:1.85;color:rgba(240,237,230,.46);max-width:530px;margin-bottom:.85rem;}
+.exp-tags{display:flex;flex-wrap:wrap;gap:.33rem;}
+.exp-tag{padding:.12rem .54rem;background:rgba(245,208,32,.07);border:1px solid rgba(245,208,32,.17);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.63rem;color:var(--yellow);letter-spacing:.08em;text-transform:uppercase;}
+
+/* PROJECTS */
+#projects{background:var(--bg2);}
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);}
+.proj-card{background:var(--card);padding:2.5rem;position:relative;overflow:hidden;transition:background .25s;}
+.proj-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--yellow),var(--yellow2));transform:scaleX(0);transform-origin:left;transition:transform .3s;}
+.proj-card:hover{background:#222427;}
+.proj-card:hover::before{transform:scaleX(1);}
+.proj-bign{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:4rem;line-height:1;color:rgba(245,208,32,.06);position:absolute;top:1.5rem;right:2rem;letter-spacing:-.02em;}
+.proj-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:1.65rem;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:.7rem;margin-top:2.5rem;line-height:1;}
+.proj-desc{font-size:.82rem;line-height:1.85;color:rgba(240,237,230,.44);margin-bottom:1.5rem;}
+.proj-stack{display:flex;flex-wrap:wrap;gap:.33rem;margin-bottom:1.3rem;}
+.proj-tech{padding:.16rem .52rem;background:rgba(255,255,255,.03);border:1px solid var(--border);font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--muted);}
+.proj-links{display:flex;gap:1rem;align-items:center;}
+.proj-link{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--yellow);text-decoration:none;display:inline-flex;align-items:center;gap:.3rem;transition:color .2s;}
+.proj-link:hover{color:var(--yellow2);}
+.proj-link.dim{color:var(--muted);}
+.proj-link.dim:hover{color:var(--white);}
+
+/* INTERNSHIP */
+#internship{background:var(--bg3);}
+.intern-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.int-card{background:var(--card);border:1px solid rgba(245,208,32,.14);overflow:hidden;}
+.int-card-hdr{background:var(--yellow);padding:1.1rem 2rem;display:flex;align-items:center;justify-content:space-between;}
+.int-hdr-t{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:.95rem;text-transform:uppercase;letter-spacing:.06em;color:#000;}
+.int-hdr-id{font-family:'Share Tech Mono',monospace;font-size:.56rem;color:rgba(0,0,0,.55);letter-spacing:.1em;}
+.int-body{padding:2rem;}
+.int-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:2rem;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:.25rem;line-height:1;}
+.int-sub{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:1.3rem;}
+.int-desc{font-size:.85rem;line-height:1.85;color:rgba(240,237,230,.48);margin-bottom:1.5rem;}
+.int-meta{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;border-top:1px solid var(--border);padding-top:1.1rem;}
+.im-l{font-family:'Share Tech Mono',monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.2rem;}
+.im-v{font-size:.8rem;color:var(--white);font-weight:500;}
+.int-tags{display:flex;flex-wrap:wrap;gap:.38rem;margin-top:1.1rem;}
+.int-right .rp{font-size:.88rem;line-height:1.9;color:rgba(240,237,230,.48);margin-bottom:1.2rem;}
+.int-quote{background:rgba(245,208,32,.05);border-left:3px solid var(--yellow);padding:1.1rem 1.4rem;margin-top:1.4rem;}
+.int-quote p{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:1.05rem;color:var(--white);line-height:1.4;}
+.int-quote cite{display:block;margin-top:.45rem;font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--muted);font-style:normal;letter-spacing:.08em;}
+
+/* CERTIFICATIONS */
+#certifications{background:var(--bg2);}
+.certs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);}
+.cert-card{background:var(--card);padding:2rem;position:relative;overflow:hidden;transition:background .2s;}
+.cert-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--yellow);transform:scaleX(0);transform-origin:left;transition:transform .3s;}
+.cert-card:hover{background:#222427;}
+.cert-card:hover::after{transform:scaleX(1);}
+.cert-iss{font-family:'Share Tech Mono',monospace;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--yellow);margin-bottom:.75rem;}
+.cert-name{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-style:italic;font-size:1.15rem;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:.45rem;line-height:1.15;}
+.cert-dt{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--muted);}
+.cert-vfy{display:inline-block;margin-top:.65rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--yellow);text-decoration:none;transition:color .2s;}
+.cert-vfy:hover{color:var(--yellow2);}
+
+/* EDUCATION */
+#education{background:var(--bg3);}
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);}
+.edu-card{background:var(--card);padding:2.2rem;transition:background .2s;position:relative;}
+.edu-card:hover{background:#222427;}
+.edu-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--yellow);transform:scaleY(0);transform-origin:bottom;transition:transform .3s;}
+.edu-card:hover::before{transform:scaleY(1);}
+.edu-badge{display:inline-block;padding:.13rem .62px;background:rgba(245,208,32,.09);border:1px solid rgba(245,208,32,.2);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.6rem;color:var(--yellow);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.9rem;padding:.13rem .62rem;}
+.edu-deg{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:1.25rem;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:.3rem;line-height:1.1;}
+.edu-school{font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--yellow);margin-bottom:.28rem;}
+.edu-year{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--muted);}
+
+/* CONTACT */
+#contact{background:var(--bg2);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
+.ct-desc{font-size:.88rem;line-height:1.9;color:rgba(240,237,230,.46);margin-bottom:2rem;}
+.ct-email{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:1.75rem;text-transform:uppercase;margin-bottom:2.5rem;word-break:break-all;letter-spacing:-.01em;line-height:1.1;}
+.ct-email a{color:var(--yellow);text-decoration:none;transition:color .2s;}
+.ct-email a:hover{color:var(--yellow2);}
+.ct-links{display:flex;flex-direction:column;gap:2px;}
+.cli{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.8rem;background:var(--card);text-decoration:none;color:var(--white);border-left:3px solid transparent;transition:background .2s,border-color .2s;}
+.cli:hover{background:#222427;border-left-color:var(--yellow);}
+.cli-l{font-family:'Share Tech Mono',monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.28rem;}
+.cli-v{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.93rem;}
+.cli-arr{color:var(--yellow);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.3rem;}
+
+footer{padding:1.8rem 4.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--bg3);}
+footer p{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.08em;}
+.footer-mark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:1.5rem;color:rgba(245,208,32,.12);}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+@media(max-width:1024px){
+  .hero-main{grid-template-columns:1fr;}.hero-right{display:none;}
+  section{padding:5rem 2.5rem;}
+  .about-inner,.contact-grid,.intern-grid{grid-template-columns:1fr;gap:3rem;}
+  .proj-grid,.certs-grid{grid-template-columns:1fr 1fr;}
+  .nav-center{display:none;}
+}
+@media(max-width:700px){
+  nav{padding:0 1.25rem;}
+  .nav-links{display:flex;flex-direction:column;gap:0;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(13,14,16,.98);backdrop-filter:blur(16px);justify-content:center;align-items:center;z-index:500;opacity:0;pointer-events:none;transition:opacity .3s;}
+  .nav-links.menu-open{opacity:1;pointer-events:all;}
+  .nav-links li{margin-bottom:2rem;}
+  .nav-links a{font-size:1.2rem;}
+  .live-pill{display:none;}
+  .hamburger{display:flex;}
+  section{padding:3.5rem 1.25rem;}
+  .stat-bar{grid-template-columns:1fr 1fr;}
+  .sb-item{padding:1rem 1.2rem;}
+  .sb-val{font-size:1.8rem;}
+  .h-name{font-size:clamp(3.5rem,16vw,5.5rem);}
+  .hero-left{padding:3rem 1.5rem 2rem;}
+  .proj-grid,.certs-grid,.edu-grid{grid-template-columns:1fr;}
+  .exp-row{grid-template-columns:1fr;gap:.7rem;padding:1.6rem 0;}
+  .contact-grid{grid-template-columns:1fr;gap:2rem;}
+  footer{flex-direction:column;gap:.5rem;text-align:center;padding:1.5rem 1.25rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="c-dot" id="cdot"></div>
+<div class="c-ring" id="cring"></div>
+
+<nav>
+  <a href="#hero" class="nav-brand">
+    <div class="nav-hex"><span>NS</span></div>
+    NIKITA SEN
+  </a>
+  <div class="nav-center">JAVA DEVELOPER &nbsp;·&nbsp; PORTFOLIO</div>
+  <div class="nav-right">
+    <div class="live-pill"><span class="live-dot"></span> OPEN TO WORK</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">XP</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#internship">Internship</a></li>
+      <li><a href="#certifications">Certs</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-main">
+    <div class="hero-left">
+      <div class="h-tag">Java Developer &nbsp;·&nbsp; DIT University &nbsp;·&nbsp; 2026</div>
+      <div class="h-name">
+        <div class="solid">NIKITA</div>
+        <div class="outline">SEN</div>
+      </div>
+      <div class="h-handle">nikitasen22 &nbsp;/&nbsp; github &nbsp;·&nbsp; linkedin</div>
+      <div class="h-badge">▲ &nbsp;Full-Stack Developer</div>
+      <p class="h-desc">Building scalable software from backend to browser. Java developer with internship experience, certified in DBMS &amp; Linux, shipping things that actually work.</p>
+      <div class="h-btns">
+        <a href="#contact" class="btn-y">Get In Touch</a>
+        <a href="#projects" class="btn-ghost">Projects</a>
+        <a href="https://github.com/nikitasen22" target="_blank" class="btn-ghost">GitHub</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-photo-wrap">
+        <img src="PHOTO-2026-04-19-22-15-23.jpg" alt="Nikita Sen" class="hero-photo"/>
+        <div class="hero-overlay"></div>
+      </div>
+      <div class="hero-drip"></div>
+    </div>
+  </div>
+  <div class="stat-bar">
+    <div class="sb-item">
+      <div class="sb-lbl">Projects Shipped</div>
+      <div class="sb-val">02</div>
+      <div class="sb-sub">FLIGHT BOOKING · WEATHER APP</div>
+    </div>
+    <div class="sb-item">
+      <div class="sb-lbl">Certifications</div>
+      <div class="sb-val w">03</div>
+      <div class="sb-sub">PINNACLE · COURSERA × 2</div>
+    </div>
+    <div class="sb-item">
+      <div class="sb-lbl">Internship</div>
+      <div class="sb-val">4<span style="font-size:1.1rem;color:var(--muted);"> WKS</span></div>
+      <div class="sb-sub">PINNACLE LABS · JAVA DEV</div>
+    </div>
+    <div class="sb-item">
+      <div class="sb-lbl">Status</div>
+      <div class="sb-val" style="font-size:1.35rem;letter-spacing:.04em;">OPEN</div>
+      <div class="sb-sub">FULL-TIME · INTERNSHIP · FREELANCE</div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>Java Developer</span><span>·</span><span>Pinnacle Labs</span><span>·</span><span>DIT University</span><span>·</span><span>Database Management</span><span>·</span><span>Linux Fundamentals</span><span>·</span><span>Full-Stack</span><span>·</span><span>Open To Work</span><span>·</span>
+    <span>Java Developer</span><span>·</span><span>Pinnacle Labs</span><span>·</span><span>DIT University</span><span>·</span><span>Database Management</span><span>·</span><span>Linux Fundamentals</span><span>·</span><span>Full-Stack</span><span>·</span><span>Open To Work</span><span>·</span>
+  </div>
+</div>
+
+<section id="about">
+  <div class="sec-hdr reveal">
+    <div class="sec-big-n">01</div>
+    <div><span class="sec-eye">About</span><h2 class="sec-title">WHO <span class="y">AM I.</span></h2></div>
+  </div>
+  <div class="about-inner">
+    <div class="reveal">
+      <p class="abt-p">I'm Nikita Sen, an IT student at DIT University, Dehradun. I build things for the web and backend — clean code, real results. Java is my core, but I work confidently across the full stack.</p>
+      <p class="abt-p">Schooled at Assembly of God Church School, Ukhra, West Bengal with PCM. That analytical foundation — Physics, Chemistry, Mathematics — now powers how I approach engineering challenges.</p>
+      <p class="abt-p">Recently completed a Java Development internship at Pinnacle Labs. Certified in Database Management Essentials and Linux Fundamentals via Coursera.</p>
+      <div class="abt-quote"><p>"I don't just write code — I build tools that solve real problems with clarity and care."</p></div>
+    </div>
+    <div class="reveal d2">
+      <div class="sk-group"><div class="sk-lbl">Languages</div><div class="sk-pills"><span class="sk-pill">Java</span><span class="sk-pill">JavaScript</span><span class="sk-pill">Python</span><span class="sk-pill">C / C++</span><span class="sk-pill">SQL</span></div></div>
+      <div class="sk-group"><div class="sk-lbl">Web & Frameworks</div><div class="sk-pills"><span class="sk-pill">HTML / CSS</span><span class="sk-pill">JavaScript</span><span class="sk-pill">REST APIs</span><span class="sk-pill">Node.js</span></div></div>
+      <div class="sk-group"><div class="sk-lbl">Tools & Databases</div><div class="sk-pills"><span class="sk-pill">Git & GitHub</span><span class="sk-pill">IntelliJ IDEA</span><span class="sk-pill">VS Code</span><span class="sk-pill">MySQL</span><span class="sk-pill">Linux</span></div></div>
+      <div class="sk-group"><div class="sk-lbl">Concepts</div><div class="sk-pills"><span class="sk-pill">OOP</span><span class="sk-pill">DBMS</span><span class="sk-pill">Data Structures</span><span class="sk-pill">Algorithms</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="sec-hdr reveal">
+    <div class="sec-big-n">02</div>
+    <div><span class="sec-eye">Experience</span><h2 class="sec-title">WHERE I'VE <span class="y">BEEN.</span></h2></div>
+  </div>
+  <div class="exp-list">
+    <div class="exp-row reveal">
+      <div class="exp-dt">MAR 2026<br>APR 2026</div>
+      <div>
+        <div class="exp-badge">Internship</div>
+        <div class="exp-role">Java Developer Intern</div>
+        <div class="exp-co">Pinnacle Labs &nbsp;·&nbsp; Virtual</div>
+        <div class="exp-desc">4-week virtual Java Development internship. Exceptional dedication and skill recognised by the CEO &amp; Founder. Contributed across real engineering tasks. Org certified by MCA, MSME &amp; ISO 9001:2015.</div>
+        <div class="exp-tags"><span class="exp-tag">Java</span><span class="exp-tag">OOP</span><span class="exp-tag">Virtual</span><span class="exp-tag">Software Dev</span></div>
+      </div>
+    </div>
+    <div class="exp-row reveal d1">
+      <div class="exp-dt">2021<br>PRESENT</div>
+      <div>
+        <div class="exp-badge">Education</div>
+        <div class="exp-role">B.Tech — Information Technology</div>
+        <div class="exp-co">DIT University, Dehradun</div>
+        <div class="exp-desc">DSA, DBMS, OOP, Software Engineering. Shipped Flight Booking System and Weather Forecast App while completing industry internships simultaneously.</div>
+        <div class="exp-tags"><span class="exp-tag">DSA</span><span class="exp-tag">DBMS</span><span class="exp-tag">OOP</span><span class="exp-tag">Software Engineering</span></div>
+      </div>
+    </div>
+    <div class="exp-row reveal d2">
+      <div class="exp-dt">CLASS XII</div>
+      <div>
+        <div class="exp-badge">School</div>
+        <div class="exp-role">Science — PCM</div>
+        <div class="exp-co">Assembly of God Church School &nbsp;·&nbsp; Ukhra, West Bengal</div>
+        <div class="exp-desc">Completed Class XII with Physics, Chemistry and Mathematics — the analytical foundation behind everything I build today.</div>
+        <div class="exp-tags"><span class="exp-tag">PCM</span><span class="exp-tag">West Bengal</span><span class="exp-tag">Ukhra</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="sec-hdr reveal">
+    <div class="sec-big-n">03</div>
+    <div><span class="sec-eye">Projects</span><h2 class="sec-title">THINGS I'VE <span class="y">SHIPPED.</span></h2></div>
+  </div>
+  <div class="proj-grid">
+    <div class="proj-card reveal">
+      <div class="proj-bign">01</div>
+      <div class="proj-title">Flight Booking System</div>
+      <div class="proj-desc">Full-featured flight booking web app with intuitive search, route browsing, and a polished, production-ready frontend experience built from scratch.</div>
+      <div class="proj-stack"><span class="proj-tech">HTML</span><span class="proj-tech">CSS</span><span class="proj-tech">JavaScript</span></div>
+      <div class="proj-links">
+        <a href="https://github.com/nikitasen22/Flight-Booking-System-Website" target="_blank" class="proj-link">GitHub →</a>
+        <a href="https://www.linkedin.com/posts/nikita-sen-b82919371_frontenddeveloper-webdevelopment-html-ugcPost-7448025497898344448-XjUE" target="_blank" class="proj-link dim">LinkedIn</a>
+      </div>
+    </div>
+    <div class="proj-card reveal d1">
+      <div class="proj-bign">02</div>
+      <div class="proj-title">Weather Forecast App</div>
+      <div class="proj-desc">Java-based weather application with live API integration. Built during the Pinnacle Labs internship — clean OOP architecture, real-time data, functional UI.</div>
+      <div class="proj-stack"><span class="proj-tech">Java</span><span class="proj-tech">API Integration</span><span class="proj-tech">OOP</span></div>
+      <div class="proj-links">
+        <a href="https://github.com/nikitasen22/Weather-Forecast-Application" target="_blank" class="proj-link">GitHub →</a>
+        <a href="https://www.linkedin.com/posts/nikita-sen-b82919371_java-weatherapp-softwaredevelopment-ugcPost-7450535073222664192-AQtl" target="_blank" class="proj-link dim">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="internship">
+  <div class="sec-hdr reveal">
+    <div class="sec-big-n">04</div>
+    <div><span class="sec-eye">Internship</span><h2 class="sec-title">PINNACLE LABS <span class="y">EXPERIENCE.</span></h2></div>
+  </div>
+  <div class="intern-grid">
+    <div class="reveal">
+      <div class="int-card">
+        <div class="int-card-hdr">
+          <div class="int-hdr-t">▲ &nbsp;Pinnacle Labs &nbsp;·&nbsp; Certificate of Internship</div>
+          <div class="int-hdr-id">PL/2026/MARP9/006</div>
+        </div>
+        <div class="int-body">
+          <div class="int-title">Java Development</div>
+          <div class="int-sub">Virtual Internship &nbsp;·&nbsp; Mar – Apr 2026</div>
+          <div class="int-desc">Demonstrated exceptional dedication and skill during a 4-week virtual Java Development internship. Recognised for commendable performance by the CEO &amp; Founder. MCA registered, MSME and ISO 9001:2015 certified organisation.</div>
+          <div class="int-meta">
+            <div><div class="im-l">Duration</div><div class="im-v">Mar 12 – Apr 11, 2026</div></div>
+            <div><div class="im-l">Issued</div><div class="im-v">April 18, 2026</div></div>
+            <div><div class="im-l">Verify</div><div class="im-v"><a href="https://pinnaclelabs.tech/verify" target="_blank" style="color:var(--yellow);text-decoration:none;font-family:'Share Tech Mono',monospace;font-size:.72rem;">pinnaclelabs.tech/verify</a></div></div>
+            <div><div class="im-l">Mode</div><div class="im-v">Virtual</div></div>
+          </div>
+          <div class="int-tags">
+            <span class="exp-tag">Java</span><span class="exp-tag">OOP</span>
+            <span class="exp-tag">MCA Certified</span><span class="exp-tag">ISO 9001:2015</span><span class="exp-tag">MSME</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="int-right reveal d2">
+      <p class="rp">My time at Pinnacle Labs gave me real exposure to professional Java development — structured code, end-to-end project delivery, and working to industry standards under real timelines.</p>
+      <p class="rp">The virtual environment sharpened my ability to work independently, communicate progress, and deliver consistently without hand-holding — skills as valuable as the technical ones.</p>
+      <div class="int-quote">
+        <p>"Exceptional dedication and skill… commendable performance throughout the internship."</p>
+        <cite>— Pinnacle Labs, CEO &amp; Founder &nbsp;·&nbsp; April 2026</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="certifications">
+  <div class="sec-hdr reveal">
+    <div class="sec-big-n">05</div>
+    <div><span class="sec-eye">Certifications</span><h2 class="sec-title">CREDENTIALS &amp; <span class="y">ACHIEVEMENTS.</span></h2></div>
+  </div>
+  <div class="certs-grid">
+    <div class="cert-card reveal">
+      <div class="cert-iss">Pinnacle Labs</div>
+      <div class="cert-name">Certificate of Internship — Java Development</div>
+      <div class="cert-dt">Mar 12 – Apr 11, 2026 &nbsp;·&nbsp; Issued Apr 18, 2026</div>
+      <a href="https://pinnaclelabs.tech/verify" target="_blank" class="cert-vfy">Verify →</a>
+    </div>
+    <div class="cert-card reveal d1">
+      <div class="cert-iss">Coursera &nbsp;·&nbsp; University of Colorado</div>
+      <div class="cert-name">Database Management Essentials</div>
+      <div class="cert-dt">Completed Mar 20, 2025</div>
+      <a href="https://coursera.org/verify/2TKIX9FL68SG" target="_blank" class="cert-vfy">Verify →</a>
+    </div>
+    <div class="cert-card reveal d2">
+      <div class="cert-iss">Coursera &nbsp;·&nbsp; LearnQuest</div>
+      <div class="cert-name">Linux Fundamentals</div>
+      <div class="cert-dt">Completed Mar 16, 2025</div>
+      <a href="https://coursera.org/verify/72NU0X8GRHPG" target="_blank" class="cert-vfy">Verify →</a>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="sec-hdr reveal">
+    <div class="sec-big-n">06</div>
+    <div><span class="sec-eye">Education</span><h2 class="sec-title">ACADEMIC <span class="y">BACKGROUND.</span></h2></div>
+  </div>
+  <div class="edu-grid">
+    <div class="edu-card reveal">
+      <div class="edu-badge">B.Tech</div>
+      <div class="edu-deg">Information Technology</div>
+      <div class="edu-school">DIT University, Dehradun</div>
+      <div class="edu-year">2021 — 2025</div>
+    </div>
+    <div class="edu-card reveal d1">
+      <div class="edu-badge">Class XII</div>
+      <div class="edu-deg">Science — PCM</div>
+      <div class="edu-school">Assembly of God Church School &nbsp;·&nbsp; Ukhra, West Bengal</div>
+      <div class="edu-year">Physics &nbsp;·&nbsp; Chemistry &nbsp;·&nbsp; Mathematics</div>
+    </div>
+    <div class="edu-card reveal d2">
+      <div class="edu-badge">Coursera</div>
+      <div class="edu-deg">Database Management Essentials</div>
+      <div class="edu-school">University of Colorado System</div>
+      <div class="edu-year">Mar 2025</div>
+    </div>
+    <div class="edu-card reveal d3">
+      <div class="edu-badge">Coursera</div>
+      <div class="edu-deg">Linux Fundamentals</div>
+      <div class="edu-school">LearnQuest</div>
+      <div class="edu-year">Mar 2025</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="sec-hdr reveal">
+    <div class="sec-big-n">07</div>
+    <div><span class="sec-eye">Contact</span><h2 class="sec-title">LET'S BUILD <span class="y">TOGETHER.</span></h2></div>
+  </div>
+  <div class="contact-grid">
+    <div class="reveal">
+      <p class="ct-desc">Open to full-time roles, internships, and collaborations. Java development, full-stack, or any challenging build — I deliver from day one.</p>
+      <div class="ct-email"><a href="mailto:nikitasen@example.com">nikitasen<br>@example.com</a></div>
+    </div>
+    <div class="ct-links reveal d2">
+      <a href="https://www.linkedin.com/in/nikita-sen-b82919371/" target="_blank" class="cli">
+        <div><div class="cli-l">LinkedIn</div><div class="cli-v">nikita-sen-b82919371</div></div>
+        <span class="cli-arr">→</span>
+      </a>
+      <a href="https://github.com/nikitasen22" target="_blank" class="cli">
+        <div><div class="cli-l">GitHub</div><div class="cli-v">github.com/nikitasen22</div></div>
+        <span class="cli-arr">→</span>
+      </a>
+      <a href="https://github.com/nikitasen22/Flight-Booking-System-Website" target="_blank" class="cli">
+        <div><div class="cli-l">Project 01</div><div class="cli-v">Flight Booking System</div></div>
+        <span class="cli-arr">→</span>
+      </a>
+      <a href="https://github.com/nikitasen22/Weather-Forecast-Application" target="_blank" class="cli">
+        <div><div class="cli-l">Project 02</div><div class="cli-v">Weather Forecast App</div></div>
+        <span class="cli-arr">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Nikita Sen &nbsp;·&nbsp; DIT University, Dehradun</p>
+  <div class="footer-mark">N.SEN</div>
+  <p>Java Developer &nbsp;·&nbsp; Full-Stack &nbsp;·&nbsp; Open To Work</p>
+</footer>
+
+<script>
+const dot=document.getElementById('cdot'),ring=document.getElementById('cring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function animR(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animR);})();
+document.querySelectorAll('a,button,.proj-card,.cert-card,.edu-card,.exp-row').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{dot.style.width='11px';dot.style.height='11px';ring.style.transform='translate(-50%,-50%) scale(1.7)';ring.style.borderColor='rgba(245,208,32,.65)';});
+  el.addEventListener('mouseleave',()=>{dot.style.width='7px';dot.style.height='7px';ring.style.transform='translate(-50%,-50%) scale(1)';ring.style.borderColor='rgba(245,208,32,.4)';});
+});
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+const ham=document.getElementById('hamburger'),nl=document.getElementById('navLinks');
+ham.addEventListener('click',()=>{ham.classList.toggle('open');nl.classList.toggle('menu-open');document.body.style.overflow=nl.classList.contains('menu-open')?'hidden':'';});
+nl.querySelectorAll('a').forEach(a=>{a.addEventListener('click',()=>{ham.classList.remove('open');nl.classList.remove('menu-open');document.body.style.overflow='';});});
+const spy=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));const ac=document.querySelector(`.nav-links a[href="#${x.target.id}"]`);if(ac)ac.classList.add('active');}});},{threshold:.35});
+document.querySelectorAll('section[id]').forEach(s=>spy.observe(s));
+</script>
+</body>
+</html>
